@@ -36,7 +36,7 @@ const Index = () => {
 
   const analyzeTextMutation = useMutation({
     mutationKey: ['analyze_text'],
-    mutationFn: (data: { text: string }) => analyzeText(data),
+    mutationFn: ({ text, resType }: { text: string; resType: string }) => analyzeText(resType, { text }),
     onMutate: () => {
       setIsLoading(true);
     },
@@ -59,7 +59,7 @@ const Index = () => {
 
       setHistory(prev => [historyItem, ...prev]);
     },
-    onError: (error) => {
+    onError: () => {
       setIsLoading(false);
       toast({
         title: "Error",
@@ -69,9 +69,10 @@ const Index = () => {
     }
   });
 
-  const handleMoodSubmit = async (text: string) => {
-    analyzeTextMutation.mutate({ text });
+  const handleMoodSubmit = async (text: string, resType: string) => {
+    analyzeTextMutation.mutate({ text, resType });
   };
+
 
   const handleReset = () => {
     setDetectedMood('');

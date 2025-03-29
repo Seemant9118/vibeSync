@@ -1,29 +1,41 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { ArrowRight } from 'lucide-react';
 import { Textarea } from './ui/textarea';
+import { Switch } from './ui/switch';
+import { Label } from './ui/label';
 
 interface MoodInputProps {
-  onSubmit: (mood: string) => void;
+  onSubmit: (mood: string, resType: string) => void;
   isLoading: boolean;
 }
 
 const MoodInput = ({ onSubmit, isLoading }: MoodInputProps) => {
   const [moodText, setMoodText] = useState('');
+  const [resType, setResType] = useState(''); // Default: YouTube
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (moodText.trim() && !isLoading) {
-      onSubmit(moodText);
+      onSubmit(moodText, resType);
     }
   };
 
   return (
-
     <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Switch between YouTube & Spotify */}
+      <div className="w-full flex flex-col items-end justify-end gap-1">
+        <Label className={`text-xs ${resType === 'youtube' ? 'font-bold' : 'opacity-50'} ${resType === 'spotify' && 'line-through'}`}>YouTube (by default)</Label>
+        <div className='flex gap-2 items-center'>
+          <Switch
+            checked={resType === 'spotify'}
+            onCheckedChange={(checked) => setResType(checked ? 'spotify' : '')}
+          />
+          <Label className={`text-xs ${resType === 'spotify' ? 'font-bold' : 'opacity-50'}`}>Spotify</Label>
+        </div>
+      </div>
+
+      {/* Mood Input */}
       <Textarea
         className="bg-white/50 dark:bg-black/20 border-white/30 dark:border-white/10 placeholder-gray-500 dark:placeholder-gray-400"
         placeholder="E.g., I'm feeling relaxed after a long day at work..."
@@ -31,9 +43,11 @@ const MoodInput = ({ onSubmit, isLoading }: MoodInputProps) => {
         onChange={(e) => setMoodText(e.target.value)}
         disabled={isLoading}
       />
+
+      {/* Submit Button */}
       <Button
         type="submit"
-        className="w-full flex items-center justify-center gap-2 text-white  bg-gradient-to-r from-[#EE0979] to-[#FF6A00] hover:bg-gradient-to-l transition-all"
+        className="w-full flex items-center justify-center gap-2 text-white bg-gradient-to-r from-[#EE0979] to-[#FF6A00] hover:bg-gradient-to-l transition-all"
         disabled={isLoading || !moodText.trim()}
       >
         {isLoading ? (

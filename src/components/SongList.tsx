@@ -27,6 +27,8 @@ const SongItem = ({ song }: { song: { title: string; url: string } }) => {
     }
   };
 
+  const isSpotify = song.url.includes("spotify");
+
   return (
     <div
       className="flex items-center justify-between p-3 rounded-lg bg-white/30 dark:bg-white/10 hover:bg-white/50 dark:hover:bg-white/20 transition-all w-full"
@@ -45,8 +47,12 @@ const SongItem = ({ song }: { song: { title: string; url: string } }) => {
 
       <button onClick={handlePlay} disabled={!song.url} className="w-24">
         <div className="px-2 py-1.5 border rounded-lg flex items-center justify-center bg-[#FFFFFF17] hover:bg-[#99f68d17] hover:underline text-xs w-full">
-          <img src="/youtube-icon.png" alt="YouTube Icon" className="w-4 h-4" />
-          YouTube
+          <img
+            src={isSpotify ? "/spotify-icon.png" : "/youtube-icon.png"}
+            alt={isSpotify ? "Spotify Icon" : "YouTube Icon"}
+            className="w-4 h-4"
+          />
+          {isSpotify ? "Spotify" : "YouTube"}
         </div>
       </button>
     </div>
