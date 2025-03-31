@@ -2,6 +2,8 @@
 
 VibeSync is an AI-powered music recommendation app that analyzes your mood based on text input and suggests songs that match your vibe.
 
+### Backend repo link : [https://github.com/Techpix-in/HT1-mood_music]
+
 ## Features
 
 - 🎵 **AI Mood Detection** – Enter a text prompt, and VibeSync will analyze your emotions.
